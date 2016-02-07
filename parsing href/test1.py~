@@ -1,0 +1,40 @@
+import os
+import fileinput
+import sys
+import shutil
+def replaceall(file,s,r):
+    for line in fileinput.input(file, inplace=1):
+       if s in line:
+            line = line.replace(s,r)
+       sys.stdout.write(line)
+
+    
+from bs4 import BeautifulSoup
+os.chdir('A:/Assembler_linker_loader/iitg.vlab.co.in')
+pathh='A:\Assembler_linker_loader\iitg.vlab.co.in'
+f=open('index.html','r+').read()
+soup = BeautifulSoup(f)
+for link in soup.findAll('a'):
+            href = link.get('href') 
+            k=link.text+".html"
+            o=link.text
+            #print k
+            #print href
+            h=os.path.join(pathh,href)
+            kk=os.path.join(pathh,k)
+            print h
+            print kk
+            try:
+                os.rename(h,kk)
+            except:
+                print "error"
+            replaceall("index.html",href,k)
+            try:
+                os.mkdir(os.path.join(pathh,o))
+            except:
+                pass
+            try:
+                shutil.move(kk,os.path.join(pathh,o))
+            except:
+                pass
+            
